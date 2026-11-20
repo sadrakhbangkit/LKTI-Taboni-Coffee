@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCoffees } from './services/api';
 
 export default function App() {
-  const [lang, setLang] = useState('id'); // 'id' (Indonesia) atau 'en' (English)
+  const [lang, setLang] = useState('id');
 
   const defaultCoffeesData = {
     id: [
@@ -13,7 +13,7 @@ export default function App() {
         process_type: 'Natural Process',
         roast_level: 'Medium Roast',
         price: 75000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeeNatural.jpeg',
         description: "-Rasa cenderung lebih manis dan beraroma buah.\n-Bisa muncul karakter stroberi, blueberry, buah matang, atau fermentasi.\nBody (ketebalan rasa di mulut) biasanya terasa lebih penuh.\nSangat bergantung pada kematangan buah dan kebersihan fermentasi."
       },
       {
@@ -23,7 +23,7 @@ export default function App() {
         process_type: 'Full Washed',
         roast_level: 'Medium Roast',
         price: 65000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeePremium.jpeg',
         description: "Rasa lebih bersih dan seimbang jika bahan bakunya bagus.\nAroma bisa berupa cokelat, karamel, bunga, atau buah.\nAftertaste (rasa yang tertinggal setelah diminum) lebih menyenangkan.\nBiasanya dipilih dari biji dengan cacat lebih sedikit.\nCatatan: Premium bukan satu standar mutu universal."
       },
       {
@@ -33,7 +33,7 @@ export default function App() {
         process_type: 'Natural / Washed',
         roast_level: 'Medium Roast',
         price: 85000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeeLanang.jpeg',
         description: "Bentuk bijinya bulat dan tunggal.\nUmumnya terdapat satu biji di dalam buah kopi, bukan dua.\nRasa bisa lebih pekat atau intens, tetapi tidak otomatis lebih enak daripada kopi biasa.\nHarga dapat lebih tinggi jika diseleksi dan diminati pembeli."
       },
       {
@@ -43,7 +43,7 @@ export default function App() {
         process_type: 'Washed / Giling Basah',
         roast_level: 'Medium Roast',
         price: 50000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeeGrade2.jpeg',
         description: "Rasa: umumnya seimbang, aroma kopi cukup kuat.\nBisa terasa cokelat, kacang, rempah, atau sedikit buah.\nKualitas fisik bijinya berada di bawah Grade 1.\nCocok untuk kopi konsumsi harian dan pasar komersial."
       }
     ],
@@ -55,7 +55,7 @@ export default function App() {
         process_type: 'Natural Process',
         roast_level: 'Medium Roast',
         price: 75000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeeNatural.jpeg',
         description: "-Taste tends to be sweeter with a fruity aroma.\n-Notes of strawberry, blueberry, ripe fruit, or fermentation may appear.\nBody (mouthfeel thickness) usually feels fuller.\nHighly dependent on fruit ripeness and fermentation cleanliness."
       },
       {
@@ -65,7 +65,7 @@ export default function App() {
         process_type: 'Full Washed',
         roast_level: 'Medium Roast',
         price: 65000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeePremium.jpeg',
         description: "Cleaner and more balanced taste when using high-quality raw cherries.\nAroma can feature chocolate, caramel, floral, or fruity notes.\nAftertaste is more pleasant and lingering.\nTypically selected from beans with fewer defects.\nNote: Premium is not a single universal quality standard."
       },
       {
@@ -75,7 +75,7 @@ export default function App() {
         process_type: 'Natural / Washed',
         roast_level: 'Medium Roast',
         price: 85000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeeLanang.jpeg',
         description: "The bean shape is round and single.\nGenerally, there is only one bean inside the coffee cherry instead of two.\nFlavor can be bolder or more intense, though not automatically better than regular beans.\nPrice can be higher if carefully sorted and in high demand."
       },
       {
@@ -85,7 +85,7 @@ export default function App() {
         process_type: 'Washed / Wet-Hulled',
         roast_level: 'Medium Roast',
         price: 50000,
-        image: '/kopi premium.jpeg',
+        image: '/coffeeGrade2.jpeg',
         description: "Taste: generally balanced with a fairly strong coffee aroma.\nMay carry notes of chocolate, nuts, spices, or mild fruit.\nPhysical bean quality is below Grade 1.\nSuitable for daily consumption and the commercial market."
       }
     ]
@@ -93,8 +93,8 @@ export default function App() {
 
   const [apiCoffees, setApiCoffees] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' atau 'katalog'
-  const [selectedProcess, setSelectedProcess] = useState('natural'); // 'natural', 'lanang', 'premium', 'grade2'
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [selectedProcess, setSelectedProcess] = useState('natural');
 
   useEffect(() => {
     getCoffees()
@@ -110,13 +110,13 @@ export default function App() {
       });
   }, []);
 
-  // Gabungkan data bahasa yang dipilih dengan sinkronisasi harga & foto terbaru
   const coffees = defaultCoffeesData[lang].map((item, idx) => ({
     ...item,
     id: apiCoffees[idx]?.id || item.id,
+    price: apiCoffees[idx]?.price || item.price,
+    image: apiCoffees[idx]?.image || item.image,
   }));
 
-  // Kamus Teks Antarmuka & Konten (ID & EN)
   const content = {
     id: {
       subtitle: 'Bubuk Kopi Arabika Lintong',
@@ -465,7 +465,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF5EF] text-[#2C1D11]">
-      {/* Navbar Responsif + Tombol Pilihan Bahasa */}
       <header className="bg-[#3C2A21] text-[#E5D3C0] py-4 px-4 sm:px-8 flex flex-col sm:flex-row justify-between items-center shadow-md sticky top-0 z-50 gap-3 sm:gap-0">
         <div className="cursor-pointer text-center sm:text-left" onClick={() => setActiveTab('dashboard')}>
           <h1 className="text-xl sm:text-2xl font-extrabold tracking-wider text-[#F3E5D8]">TABONI COFFEE</h1>
@@ -488,7 +487,6 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Toggle Pilihan Bahasa (ID / EN) */}
           <div className="flex items-center bg-[#2C1D11] rounded-lg p-1 border border-[#5A4235]">
             <button
               onClick={() => setLang('id')}
@@ -514,17 +512,12 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 max-w-5xl mx-auto p-4 sm:p-6 w-full space-y-8 sm:space-y-10">
 
-        {/* ================= TAMPILAN DASHBOARD ================= */}
         {activeTab === 'dashboard' && (
           <div className="space-y-8 sm:space-y-10">
 
-            {/* 1. SECTION UTAMA TABONI COFFEE & SEJARAH BERDIRINYA */}
             <section className="bg-white p-5 sm:p-8 rounded-2xl shadow-sm border border-[#E5D3C0] space-y-6">
-
-              {/* Header Bagian Atas: Badge + Nama Usaha & Info Pengusaha */}
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[#E5D3C0] pb-6 gap-5">
                 <div className="w-full md:w-auto">
                   <span className="inline-block bg-[#D67B2A] text-white text-[10px] sm:text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider max-w-full leading-normal">
@@ -535,7 +528,6 @@ export default function App() {
                   </h2>
                 </div>
 
-                {/* Info Pengusaha Taboni Coffee */}
                 <div className="bg-[#FFF8F0] p-4 rounded-xl border border-[#E5D3C0] w-full md:w-auto text-left md:text-right shadow-xs">
                   <p className="text-xs text-slate-500 font-medium">{t.ownerLabel}</p>
                   <p className="text-sm font-bold text-[#3C2A21]">Alexsander Panjaitan</p>
@@ -543,13 +535,11 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Narasi Sejarah & Awal Mula Taboni Coffee */}
               <div className="space-y-4 text-slate-700 leading-relaxed text-sm sm:text-base">
                 <p>{t.historyP1}</p>
                 <p>{t.historyP2}</p>
               </div>
 
-              {/* Highlight Jejak Perjalanan Singkat (Milestone) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 {t.milestones.map((item, idx) => (
                   <div key={idx} className="bg-[#FFF8F0] border border-[#E5D3C0] rounded-xl p-3.5">
@@ -560,7 +550,6 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Tombol Lihat Seluruh Produk */}
               <div className="pt-2">
                 <button
                   onClick={() => setActiveTab('katalog')}
@@ -572,7 +561,6 @@ export default function App() {
               </div>
             </section>
 
-            {/* 2. SECTION ALUR PROSES PEMBUATAN KOPI (4 JENIS) */}
             <section className="bg-white p-5 sm:p-8 rounded-2xl shadow-sm border border-[#E5D3C0]">
               <div className="mb-6 border-b border-[#E5D3C0] pb-5">
                 <h2 className="text-xl sm:text-2xl font-bold text-[#3C2A21]">{t.processHeading}</h2>
@@ -580,7 +568,6 @@ export default function App() {
                   {t.processSub}
                 </p>
 
-                {/* Tab Pilihan Jenis Proses Pembuatan */}
                 <div className="flex flex-wrap gap-2">
                   {t.tabs.map((tab) => (
                     <button
@@ -598,7 +585,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* --- TAB 1: PROSES NATURAL --- */}
               {selectedProcess === 'natural' && (
                 <div className="space-y-6">
                   <h3 className="text-lg sm:text-xl font-bold text-[#3C2A21]">{t.titleNatural}</h3>
@@ -617,7 +603,6 @@ export default function App() {
                 </div>
               )}
 
-              {/* --- TAB 2: PROSES LANANG --- */}
               {selectedProcess === 'lanang' && (
                 <div className="space-y-6">
                   <h3 className="text-lg sm:text-xl font-bold text-[#3C2A21]">{t.titleLanang}</h3>
@@ -636,10 +621,8 @@ export default function App() {
                 </div>
               )}
 
-              {/* --- TAB 3: KOPI PREMIUM --- */}
               {selectedProcess === 'premium' && (
                 <div className="space-y-8">
-                  {/* 1. Bahan baku untuk kopi premium */}
                   <div className="bg-[#FFF8F0] border border-[#E5D3C0] rounded-xl p-5 space-y-2.5">
                     <h3 className="text-base sm:text-lg font-bold text-[#3C2A21]">
                       {t.premiumRawTitle}
@@ -654,7 +637,6 @@ export default function App() {
                     </p>
                   </div>
 
-                  {/* 2. Tahapan proses premium */}
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-[#3C2A21] mb-5">
                       {t.premiumStepsTitle}
@@ -676,7 +658,6 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* 3. Bagaimana memastikan hasilnya benar-benar premium? */}
                   <div className="bg-[#FFF8F0] border border-[#E5D3C0] rounded-xl p-5 space-y-2">
                     <h3 className="text-base sm:text-lg font-bold text-[#3C2A21]">
                       {t.premiumTestTitle}
@@ -693,10 +674,8 @@ export default function App() {
                 </div>
               )}
 
-              {/* --- TAB 4: GRADE 2 --- */}
               {selectedProcess === 'grade2' && (
                 <div className="space-y-8">
-                  {/* 1. Tahapan pengolahan Grade 2 */}
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-[#3C2A21] mb-5">
                       {t.grade2StepsTitle}
@@ -718,7 +697,6 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* 2. Cara menentukan apakah sudah Grade 2 */}
                   <div className="bg-[#FFF8F0] border border-[#E5D3C0] rounded-xl p-5 space-y-3">
                     <h3 className="text-base sm:text-lg font-bold text-[#3C2A21]">
                       {t.grade2CheckTitle}
@@ -767,7 +745,6 @@ export default function App() {
           </div>
         )}
 
-        {/* ================= TAMPILAN KATALOG PRODUK LENGKAP ================= */}
         {activeTab === 'katalog' && (
           <section className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-5 sm:p-6 rounded-xl border border-[#E5D3C0] shadow-sm gap-4">
@@ -791,10 +768,9 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {coffees.map((coffee) => (
                   <div key={coffee.id} className="bg-white rounded-xl shadow-sm border border-[#E5D3C0] overflow-hidden flex flex-col hover:shadow-md transition">
-                    {/* Bagian Foto Kemasan Produk */}
                     <div className="h-56 bg-[#F3E5D8]/50 flex items-center justify-center relative p-3 border-b border-[#E5D3C0]">
                       <img
-                        src={coffee.image || '/kopi premium.jpeg'}
+                        src={coffee.image || '/coffeePremium.jpeg'}
                         alt={coffee.name}
                         className="h-full w-auto object-contain rounded-lg drop-shadow-sm"
                       />
@@ -830,7 +806,6 @@ export default function App() {
 
       </main>
 
-      {/* Footer Responsif */}
       <footer className="bg-[#3C2A21] text-[#D5B99B] py-5 text-center text-xs border-t border-[#4A3525] mt-auto px-4">
         © 2026 Taboni Coffee - Alexsander Panjaitan (Nagasaribu, Lintongnihuta)
       </footer>

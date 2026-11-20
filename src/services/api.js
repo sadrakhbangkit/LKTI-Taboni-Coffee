@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://api.tabonicoffee.my.id/api';
+const API_BASE_URL = 'https://tabonicoffee.my.id/api';
 
 export const getCoffees = async () => {
   try {
